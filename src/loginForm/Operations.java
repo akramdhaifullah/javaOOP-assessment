@@ -67,7 +67,7 @@ public class Operations {
         return false;
     }
 
-    public static boolean isLecturerLogin(String username, String password, JFrame frame) {
+    public static boolean isLectureLogin(String username, String password, JFrame frame) {
         try {
             Connection myConn = MySQLConnection.getConnection();
             String mySqlQuery
