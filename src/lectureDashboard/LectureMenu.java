@@ -141,7 +141,7 @@ public class LectureMenu extends javax.swing.JFrame {
         // TODO add your handling code here:
         LoginForm form = new LoginForm();
         int login;
-        login = JOptionPane.showConfirmDialog(this, "Yakin mau keluar?", "Information", JOptionPane.YES_NO_OPTION);
+        login = JOptionPane.showConfirmDialog(this, "Are you sure?", "Log Out", JOptionPane.YES_NO_OPTION);
         if (login == JOptionPane.YES_OPTION) {
             form.setVisible(true);
             this.dispose();

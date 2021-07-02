@@ -6,7 +6,10 @@
 package loginForm;
 
 import javax.swing.JOptionPane;
+
 import studentDashboard.StudentMenu;
+import lectureDashboard.LectureMenu;
+import adminDashboard.AdminMenu;
 
 /**
  *
@@ -53,11 +56,6 @@ public class LoginForm extends javax.swing.JFrame {
         userField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         passField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        passField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passFieldActionPerformed(evt);
-            }
-        });
 
         showPass.setText("Show Password");
         showPass.addActionListener(new java.awt.event.ActionListener() {
@@ -119,9 +117,9 @@ public class LoginForm extends javax.swing.JFrame {
         titlePanelLayout.setHorizontalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(titlePanelLayout.createSequentialGroup()
-                .addGap(76, 76, 76)
+                .addGap(78, 78, 78)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(79, 79, 79))
         );
         titlePanelLayout.setVerticalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,25 +179,24 @@ public class LoginForm extends javax.swing.JFrame {
             String password = passField.getText();
 
             if (o.isAdminLogin(username, password, this)) {
-                JOptionPane.showMessageDialog(this, "Login successful.");
+                AdminMenu admin = new AdminMenu();
+                admin.setVisible(true);
+                this.dispose();
             } else if (o.isStudentLogin(username, password, this)) {
                 StudentMenu std = new StudentMenu();
                 std.setVisible(true);
-                this.setVisible(false);
+                this.dispose();
             } else if (o.isLectureLogin(username, password, this)) {
-                JOptionPane.showMessageDialog(this, "Login successful.");
+                LectureMenu lecture = new LectureMenu();
+                lecture.setVisible(true);
+                this.dispose();
             } else {
-                JOptionPane.showMessageDialog(this, "Username/password is incorrect!");
+                JOptionPane.showMessageDialog(this, "No accounts are found.");
             }
-
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }//GEN-LAST:event_loginButtonActionPerformed
-
-    private void passFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passFieldActionPerformed
 
     /**
      * @param args the command line arguments
