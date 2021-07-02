@@ -21,7 +21,7 @@ public class StudentMenu extends javax.swing.JFrame {
     public StudentMenu() {
         initComponents();
         setResizable(false);
-        setHeader();
+        headerLabel.setText(setHeader());
     }
 
     /**

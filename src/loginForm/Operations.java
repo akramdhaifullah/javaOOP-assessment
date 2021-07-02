@@ -58,7 +58,7 @@ public class Operations {
 
             while (resultSet.next()) {
                 Student.setNIM(resultSet.getString("NIM"));
-                Student.setName(resultSet.getString("name"));
+                Student.setName(resultSet.getString("NAMA"));
                 return true;
             }
 

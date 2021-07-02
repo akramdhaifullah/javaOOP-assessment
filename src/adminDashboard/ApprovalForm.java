@@ -5,7 +5,12 @@
  */
 package adminDashboard;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import mySQLConnection.MySQLConnection;
 
 /**
  *
@@ -14,27 +19,66 @@ import javax.swing.table.DefaultTableModel;
 public class ApprovalForm extends javax.swing.JFrame {
 
     DefaultTableModel model;
-    
+    final String approved = "Diterima";
+    final String declined = "Ditolak";
+    String selectedNIM;
+
     /**
      * Creates new form Approval
      */
     public ApprovalForm() {
         initComponents();
+        setResizable(false);
         createTableModel();
+        showData();
     }
-    
-    public void createTableModel() {
+
+    private void createTableModel() {
         model = new DefaultTableModel();
         model.addColumn("NIM");
         model.addColumn("Nama");
-        model.addColumn("Tempat");
         model.addColumn("Waktu");
+        model.addColumn("Tempat");
         model.addColumn("Status");
         approvalTable.setModel(model);
     }
-    public void showData() {
-   
-        
+
+    private void showData() {
+        try {
+            Connection myConn = MySQLConnection.getConnection();
+            String query = "SELECT * FROM proposal";
+            PreparedStatement ps = myConn.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Object[] row = new Object[]{
+                    rs.getString("NIM"),
+                    rs.getString("NAMA"),
+                    rs.getString("WAKTU"),
+                    rs.getString("TEMPAT"),
+                    rs.getString("STATUS")
+                };
+                model.addRow(row);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
+    }
+
+    private void refreshTable() {
+        model.setRowCount(0);
+        selectedNIM = null;
+        showData();
+    }
+
+    private boolean isTableSelected() {
+        if (selectedNIM != null) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     /**
@@ -50,6 +94,10 @@ public class ApprovalForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         approvalTable = new javax.swing.JTable();
+        approveButton = new javax.swing.JButton();
+        declineButton = new javax.swing.JButton();
+        refreshLabel = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -87,7 +135,36 @@ public class ApprovalForm extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        approvalTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        approvalTable.setAutoscrolls(false);
+        approvalTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                approvalTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(approvalTable);
+
+        approveButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        approveButton.setText("Terima");
+        approveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                approveButtonActionPerformed(evt);
+            }
+        });
+
+        declineButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        declineButton.setText("Tolak");
+
+        refreshLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        refreshLabel.setText("Refresh");
+        refreshLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                refreshLabelMouseClicked(evt);
+            }
+        });
+
+        jButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        jButton1.setText("Kembali");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -95,9 +172,20 @@ public class ApprovalForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(50, 50, 50)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(refreshLabel)
+                        .addGap(18, 18, 18)
+                        .addComponent(declineButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(approveButton)))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,11 +193,46 @@ public class ApprovalForm extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 58, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(approveButton)
+                    .addComponent(declineButton)
+                    .addComponent(refreshLabel)
+                    .addComponent(jButton1))
+                .addGap(0, 16, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void refreshLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshLabelMouseClicked
+        // TODO add your handling code here:
+        refreshTable();
+    }//GEN-LAST:event_refreshLabelMouseClicked
+
+    private void approveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approveButtonActionPerformed
+        // TODO add your handling code here:
+        if (isTableSelected()) {
+            try {
+                Connection myConn = MySQLConnection.getConnection();
+                String query = "UPDATE proposal SET STATUS = '" + approved + "' WHERE NIM = '" + selectedNIM + "'";
+                PreparedStatement ps = myConn.prepareStatement(query);
+                ps.executeUpdate();
+                refreshTable();
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Tidak ada opsi yang dipilih.");
+        }
+    }//GEN-LAST:event_approveButtonActionPerformed
+
+    private void approvalTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_approvalTableMouseClicked
+        // TODO add your handling code here:
+        int row = approvalTable.getSelectedRow();
+        selectedNIM = approvalTable.getValueAt(row, 0).toString();
+    }//GEN-LAST:event_approvalTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -149,8 +272,12 @@ public class ApprovalForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable approvalTable;
+    private javax.swing.JButton approveButton;
+    private javax.swing.JButton declineButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel refreshLabel;
     // End of variables declaration//GEN-END:variables
 }

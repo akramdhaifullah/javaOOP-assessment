@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import sessionAttributes.Student;
 import mySQLConnection.MySQLConnection;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 /**
  *
@@ -32,6 +33,7 @@ public class ProposalForm extends javax.swing.JFrame {
      */
     public ProposalForm() {
         initComponents();
+        setResizable(false);
         addressTextArea.setLineWrap(true);
     }
 
@@ -246,7 +248,7 @@ public class ProposalForm extends javax.swing.JFrame {
         fc.addChoosableFileFilter(restrict);
         int a = fc.showOpenDialog(null);
         if (a == JFileChooser.APPROVE_OPTION) {
-            cvField.setText(fc.getSelectedFile().getAbsolutePath());
+            folioField.setText(fc.getSelectedFile().getAbsolutePath());
             folioFile = fc.getSelectedFile();
         }
     }//GEN-LAST:event_folioButtonActionPerformed
@@ -260,16 +262,31 @@ public class ProposalForm extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
+        setData();
         try {
             Connection myConn = MySQLConnection.getConnection();
             String query = "INSERT INTO proposal (NIM, NAMA, WAKTU, TEMPAT, STATUS) VALUES ('"
-                    + tempNIM + "','" + tempName + "','" + tempDate + "'," + "'" + tempAddress + "', '" + tempResult + "')";
-            PreparedStatement preparedStatement = myConn.prepareStatement(query);
-            ResultSet resultSet = preparedStatement.executeQuery();
+                    + tempNIM + "','" + tempName + "','" + tempDate + "'," + "'" 
+                    + tempAddress + "', '" + tempResult + "')";
+            PreparedStatement ps = myConn.prepareStatement(query);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Berhasil ditambahkan.");
+            ps.close();
+            clear();
+        } catch (MySQLIntegrityConstraintViolationException sqle) {
+            JOptionPane.showMessageDialog(this, sqle.getMessage() + ", anda sudah mengajukan proposal.");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
         }
     }//GEN-LAST:event_submitButtonActionPerformed
+
+    private void clear() {
+        cvField.setText("");
+        folioField.setText("");
+        addressTextArea.setText("");
+        timeChooser.setDateFormatString("");
+        emailField.setText("");
+    }
 
     private void setData() {
         tempNIM = Student.getNIM();
