@@ -12,6 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import mySQLConnection.MySQLConnection;
+import sessionAttributes.Student;
 
 /**
  *
@@ -56,7 +57,8 @@ public class Operations {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-
+                Student.setNIM(resultSet.getString("NIM"));
+                Student.setName(resultSet.getString("name"));
                 return true;
             }
 
