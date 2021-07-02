@@ -6,18 +6,26 @@
 package studentDashboard;
 
 import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import sessionAttributes.Student;
+import mySQLConnection.MySQLConnection;
 
 /**
  *
  * @author ACER AMD
  */
 public class ProposalForm extends javax.swing.JFrame {
-    
+
     JFileChooser fc;
     File cvFile, folioFile;
     FileNameExtensionFilter restrict;
+    String tempNIM, tempName, tempDate, tempAddress, tempResult;
 
     /**
      * Creates new form ProposalForm
@@ -227,7 +235,7 @@ public class ProposalForm extends javax.swing.JFrame {
             cvField.setText(fc.getSelectedFile().getAbsolutePath());
             cvFile = fc.getSelectedFile();
         }
-        
+
     }//GEN-LAST:event_cvButtonActionPerformed
 
     private void folioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_folioButtonActionPerformed
@@ -252,7 +260,26 @@ public class ProposalForm extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
+        try {
+            Connection myConn = MySQLConnection.getConnection();
+            String query = "INSERT INTO proposal (NIM, NAMA, WAKTU, TEMPAT, STATUS) VALUES ('"
+                    + tempNIM + "','" + tempName + "','" + tempDate + "'," + "'" + tempAddress + "', '" + tempResult + "')";
+            PreparedStatement preparedStatement = myConn.prepareStatement(query);
+            ResultSet resultSet = preparedStatement.executeQuery();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
     }//GEN-LAST:event_submitButtonActionPerformed
+
+    private void setData() {
+        tempNIM = Student.getNIM();
+        tempName = Student.getName();
+        String dateFormat = "yyyy-MM-dd";
+        SimpleDateFormat df = new SimpleDateFormat(dateFormat);
+        tempDate = String.valueOf(df.format(timeChooser.getDate()));
+        tempAddress = addressTextArea.getText();
+        tempResult = "Pending";
+    }
 
     /**
      * @param args the command line arguments
