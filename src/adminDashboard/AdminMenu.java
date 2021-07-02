@@ -91,7 +91,7 @@ public class AdminMenu extends javax.swing.JFrame {
         });
 
         pknButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        pknButton.setText("Penilaian PKN");
+        pknButton.setText("Nilai PKN");
         pknButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pknButtonActionPerformed(evt);
@@ -131,7 +131,7 @@ public class AdminMenu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(exitButton)))
-                .addGap(100, 100, 100))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,7 +145,7 @@ public class AdminMenu extends javax.swing.JFrame {
                 .addComponent(pknButton)
                 .addGap(18, 18, 18)
                 .addComponent(registrasiButton)
-                .addGap(22, 22, 22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(exitButton)
                 .addGap(15, 15, 15))
         );
@@ -155,7 +155,7 @@ public class AdminMenu extends javax.swing.JFrame {
 
     private void approvalButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_approvalButtonActionPerformed
         // TODO add your handling code here:
-        Approval a = new Approval();
+        ApprovalForm a = new ApprovalForm();
         a.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_approvalButtonActionPerformed

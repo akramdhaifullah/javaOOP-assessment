@@ -49,7 +49,7 @@ public class Operations {
             String mySqlQuery
                     = "SELECT * FROM mahasiswa WHERE EMAIL = '"
                     + username
-                    + "' AND STUDENT_ID = '"
+                    + "' AND NIM = '"
                     + password
                     + "'";
             PreparedStatement preparedStatement = myConn.prepareStatement(mySqlQuery);

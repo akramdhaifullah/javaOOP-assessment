@@ -29,6 +29,19 @@ public class ProposalForm extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        cvLabel = new javax.swing.JLabel();
+        cvField = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        folioLabel = new javax.swing.JLabel();
+        folioField = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        addressTextArea = new javax.swing.JTextArea();
+        addressLabel = new javax.swing.JLabel();
+        timeLabel = new javax.swing.JLabel();
+        timeChooser = new com.toedter.calendar.JDateChooser();
+        backButton = new javax.swing.JButton();
+        submitButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -43,9 +56,9 @@ public class ProposalForm extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(85, 85, 85)
+                .addGap(152, 152, 152)
                 .addComponent(jLabel1)
-                .addGap(86, 86, 86))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -55,21 +68,172 @@ public class ProposalForm extends javax.swing.JFrame {
                 .addGap(20, 20, 20))
         );
 
+        cvLabel.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        cvLabel.setText("Curiculum Vitae");
+
+        cvField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        cvField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cvFieldActionPerformed(evt);
+            }
+        });
+
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jButton1.setText("Attach File");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        folioLabel.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        folioLabel.setText("Portofolio");
+        folioLabel.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                folioLabelComponentHidden(evt);
+            }
+        });
+
+        folioField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        folioField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                folioFieldActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jButton2.setText("Attach File");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        addressTextArea.setColumns(20);
+        addressTextArea.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        addressTextArea.setRows(5);
+        jScrollPane1.setViewportView(addressTextArea);
+
+        addressLabel.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        addressLabel.setText("Alamat PKN");
+
+        timeLabel.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        timeLabel.setText("Waktu Pelaksanaan");
+
+        timeChooser.setDateFormatString("DD MM, YYYY");
+        timeChooser.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+
+        backButton.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        backButton.setText("Kembali");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
+
+        submitButton.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        submitButton.setText("Submit");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cvLabel)
+                    .addComponent(folioLabel)
+                    .addComponent(addressLabel)
+                    .addComponent(timeLabel))
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(cvField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(timeChooser, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(folioField, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)))
+                .addGap(50, 50, 50))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(backButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(submitButton)
+                .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 201, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cvLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cvField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(folioLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(folioField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addressLabel))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(timeChooser, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                    .addComponent(timeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(backButton)
+                    .addComponent(submitButton))
+                .addGap(15, 15, 15))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cvFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cvFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cvFieldActionPerformed
+
+    private void folioFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_folioFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_folioFieldActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        // TODO add your handling code here:
+        StudentMenu std = new StudentMenu();
+        std.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backButtonActionPerformed
+
+    private void folioLabelComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_folioLabelComponentHidden
+        // TODO add your handling code here:
+    }//GEN-LAST:event_folioLabelComponentHidden
+
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_submitButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -107,7 +271,20 @@ public class ProposalForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel addressLabel;
+    private javax.swing.JTextArea addressTextArea;
+    private javax.swing.JButton backButton;
+    private javax.swing.JTextField cvField;
+    private javax.swing.JLabel cvLabel;
+    private javax.swing.JTextField folioField;
+    private javax.swing.JLabel folioLabel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton submitButton;
+    private com.toedter.calendar.JDateChooser timeChooser;
+    private javax.swing.JLabel timeLabel;
     // End of variables declaration//GEN-END:variables
 }

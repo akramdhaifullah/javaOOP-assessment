@@ -111,7 +111,7 @@ public class LectureMenu extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
                         .addComponent(jButton3)))
-                .addGap(100, 100, 100))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -121,7 +121,7 @@ public class LectureMenu extends javax.swing.JFrame {
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
-                .addGap(22, 22, 22)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addGap(15, 15, 15))
         );
