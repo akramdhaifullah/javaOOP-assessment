@@ -5,10 +5,15 @@
  */
 package studentDashboard;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import java.io.File;
-import java.nio.file.Files;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import mySQLConnection.MySQLConnection;
+import sessionAttributes.Student;
 
 /**
  *
@@ -18,13 +23,19 @@ public class ExamForm extends javax.swing.JFrame {
 
     JFileChooser fc;
     FileNameExtensionFilter restrict;
-    File nilaiFile, laporanFile;
-    
+    File laporanFile;
+    String tempNIM, tempName;
+
     /**
      * Creates new form ExamForm
      */
     public ExamForm() {
         initComponents();
+    }
+
+    private void setData() {
+        tempNIM = Student.getNIM();
+        tempName = Student.getName();
     }
 
     /**
@@ -39,13 +50,13 @@ public class ExamForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        nilaiField = new javax.swing.JTextField();
-        nilaiButton = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
         laporanButton = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
         submitButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        nilaiButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -60,9 +71,9 @@ public class ExamForm extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(165, 165, 165)
+                .addGap(175, 175, 175)
                 .addComponent(jLabel1)
-                .addContainerGap(164, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -73,24 +84,10 @@ public class ExamForm extends javax.swing.JFrame {
         );
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel2.setText("Nilai dari Perusahaan");
+        jLabel2.setText("Laporan PKN");
 
-        nilaiField.setEditable(false);
-        nilaiField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-
-        nilaiButton.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        nilaiButton.setText("Attach File");
-        nilaiButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nilaiButtonActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jLabel3.setText("Laporan PKN");
-
-        jTextField2.setEditable(false);
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jTextField1.setEditable(false);
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
         laporanButton.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         laporanButton.setText("Attach File");
@@ -116,33 +113,42 @@ public class ExamForm extends javax.swing.JFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel3.setText("Nilai dari Perusahaan");
+
+        jTextField2.setEditable(false);
+        jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+
+        nilaiButton.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        nilaiButton.setText("Attach File");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(nilaiField, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(nilaiButton))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(laporanButton)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(backButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(submitButton)
                 .addGap(20, 20, 20))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(nilaiButton))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(laporanButton)))
+                .addContainerGap(50, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,15 +156,15 @@ public class ExamForm extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(nilaiField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nilaiButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(laporanButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backButton)
                     .addComponent(submitButton))
@@ -170,20 +176,21 @@ public class ExamForm extends javax.swing.JFrame {
 
     private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_submitButtonActionPerformed
-
-    private void nilaiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nilaiButtonActionPerformed
-        // TODO add your handling code here:
-        fc = new JFileChooser();
-        fc.setAcceptAllFileFilterUsed(false);
-        restrict = new FileNameExtensionFilter("Only .pdf files", "pdf");
-        fc.addChoosableFileFilter(restrict);
-        int a = fc.showOpenDialog(null);
-        if (a == JFileChooser.APPROVE_OPTION) {
-            nilaiField.setText(fc.getSelectedFile().getAbsolutePath());
-            nilaiFile = fc.getSelectedFile();
+        setData();
+        try {
+            Connection myConn = MySQLConnection.getConnection();
+            String query = "INSERT INTO ujian (NIM, NAMA, WAKTU, PENGUJI) VALUES ('"
+                    + tempNIM + "','" + tempName + "','Pending','Pending')";
+            PreparedStatement ps = myConn.prepareStatement(query);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Berhasil");
+            ps.close();
+        } catch (MySQLIntegrityConstraintViolationException sqle) {
+            JOptionPane.showMessageDialog(this, sqle.getMessage() + ", anda sudah terdaftar.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
         }
-    }//GEN-LAST:event_nilaiButtonActionPerformed
+    }//GEN-LAST:event_submitButtonActionPerformed
 
     private void laporanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laporanButtonActionPerformed
         // TODO add your handling code here:
@@ -193,7 +200,7 @@ public class ExamForm extends javax.swing.JFrame {
         fc.addChoosableFileFilter(restrict);
         int a = fc.showOpenDialog(null);
         if (a == JFileChooser.APPROVE_OPTION) {
-            jTextField2.setText(fc.getSelectedFile().getAbsolutePath());
+            jTextField1.setText(fc.getSelectedFile().getAbsolutePath());
             laporanFile = fc.getSelectedFile();
         }
     }//GEN-LAST:event_laporanButtonActionPerformed
@@ -246,10 +253,10 @@ public class ExamForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JButton laporanButton;
     private javax.swing.JButton nilaiButton;
-    private javax.swing.JTextField nilaiField;
     private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables
 }

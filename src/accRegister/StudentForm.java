@@ -18,35 +18,34 @@ import mySQLConnection.MySQLConnection;
 public class StudentForm extends javax.swing.JFrame {
 
     String tempNIM, tempName, tempEmail, tempPhone;
-    
+
     /**
      * Creates new form StudentForm
      */
     public StudentForm() {
         initComponents();
     }
-    
+
     private void clear() {
         nimField.setText("");
         nameField.setText("");
         emailField.setText("");
         phoneField.setText("");
     }
-    
+
     private void setData() {
         tempNIM = nimField.getText();
         tempName = nameField.getText();
         tempEmail = emailField.getText();
         tempPhone = phoneField.getText();
     }
-    
+
     private void createAccount() {
         setData();
         try {
             Connection con = MySQLConnection.getConnection();
-            String query = "INSERT INTO mahasiswa (NIM, NAMA, EMAIL, TELEPON) VALUES ("
-                    + tempNIM + "','" + tempName + "','" + tempEmail + "','"
-                    + tempPhone + "')";
+            String query = "INSERT INTO mahasiswa (NIM, NAMA, EMAIL, TELEPON) VALUES ('"
+                    + tempNIM + "','" + tempName + "','" + tempEmail + "','" + tempPhone + "')";
             PreparedStatement ps = con.prepareStatement(query);
             ps.executeUpdate();
             JOptionPane.showMessageDialog(this, "Berhasil ditambahkan.");
@@ -56,7 +55,7 @@ public class StudentForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, sqle.getMessage() + ", akun telah terdaftar.");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
-        }   
+        }
     }
 
     /**

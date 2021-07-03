@@ -14,6 +14,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import sessionAttributes.Student;
 import mySQLConnection.MySQLConnection;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -282,14 +283,15 @@ public class ProposalForm extends javax.swing.JFrame {
         cvField.setText("");
         folioField.setText("");
         addressTextArea.setText("");
-        timeChooser.setDateFormatString("");
+        timeChooser.setCalendar(null);
         emailField.setText("");
     }
 
     private void setData() {
         tempNIM = Student.getNIM();
         tempName = Student.getName();
-        tempDate = String.valueOf(timeChooser.getDate());
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        tempDate = String.valueOf(format.format(timeChooser.getDate()));
         tempAddress = addressTextArea.getText();
         tempResult = "Pending";
     }

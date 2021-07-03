@@ -5,17 +5,61 @@
  */
 package lectureDashboard;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import mySQLConnection.MySQLConnection;
+import sessionAttributes.Lecture;
+
 /**
  *
  * @author ACER AMD
  */
 public class ExamSchedule extends javax.swing.JFrame {
 
+    DefaultTableModel model;
+    String lectureName;
+    
     /**
      * Creates new form ExamSchedule
      */
     public ExamSchedule() {
         initComponents();
+        setResizable(false);
+        showData();
+    }
+    
+    private void createTableModel() {
+        model = new DefaultTableModel();
+        model.addColumn("NIM");
+        model.addColumn("Nama");
+        model.addColumn("Waktu");
+        examTable.setModel(model);
+    }
+    
+    private void showData() {
+        createTableModel();
+        lectureName = Lecture.getName();
+        try {
+            Connection con = MySQLConnection.getConnection();
+            String query = "SELECT * FROM ujian WHERE PENGUJI = '" + lectureName + "'";
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            
+            while (rs.next()) {
+                Object[] row = new Object[]{
+                    rs.getString("NIM"),
+                    rs.getString("NAMA"),
+                    rs.getString("WAKTU")
+                };
+                model.addRow(row);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+            
+        }
     }
 
     /**
@@ -73,6 +117,11 @@ public class ExamSchedule extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton1.setText("Kembali");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,6 +151,13 @@ public class ExamSchedule extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        LectureMenu a = new LectureMenu();
+        a.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

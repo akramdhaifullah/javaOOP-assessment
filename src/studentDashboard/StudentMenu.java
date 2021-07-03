@@ -140,6 +140,9 @@ public class StudentMenu extends javax.swing.JFrame {
 
     private void examButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_examButtonActionPerformed
         // TODO add your handling code here:
+        ExamForm a = new ExamForm();
+        a.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_examButtonActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed

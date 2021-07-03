@@ -165,6 +165,9 @@ public class AdminMenu extends javax.swing.JFrame {
 
     private void penjadwalanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_penjadwalanButtonActionPerformed
         // TODO add your handling code here:
+        ExamScheduling b = new ExamScheduling();
+        b.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_penjadwalanButtonActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
@@ -179,6 +182,9 @@ public class AdminMenu extends javax.swing.JFrame {
 
     private void pknButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pknButtonActionPerformed
         // TODO add your handling code here:
+        AssessmentPKN c = new AssessmentPKN();
+        c.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_pknButtonActionPerformed
 
     private void registrasiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrasiButtonActionPerformed
