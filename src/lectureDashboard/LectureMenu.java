@@ -5,9 +5,9 @@
  */
 package lectureDashboard;
 
-import studentDashboard.*;
 import javax.swing.JOptionPane;
 import loginForm.LoginForm;
+import sessionAttributes.Lecture;
 
 /**
  *
@@ -19,8 +19,10 @@ public class LectureMenu extends javax.swing.JFrame {
      * Creates new form MainMenu
      */
     public LectureMenu() {
+        Lecture l = new Lecture();
         initComponents();
         setResizable(false);
+        jLabel2.setText(l.setHeader());
     }
 
     /**

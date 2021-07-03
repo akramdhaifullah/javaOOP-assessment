@@ -5,17 +5,55 @@
  */
 package accRegister;
 
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
+import mySQLConnection.MySQLConnection;
+
 /**
  *
  * @author ACER AMD
  */
 public class LectureForm extends javax.swing.JFrame {
 
+    String tempName, tempUser, tempPass;
+    
     /**
      * Creates new form LectureForm
      */
     public LectureForm() {
         initComponents();
+    }
+    
+    private void clear() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+    }
+
+    private void setData() {
+        tempName = jTextField1.getText();
+        tempUser = jTextField2.getText();
+        tempPass = jTextField3.getText();
+    }
+
+    private void createAccount() {
+        setData();
+        try {
+            Connection con = MySQLConnection.getConnection();
+            String query = "INSERT INTO dosen (NAMA, USERNAME, PASSWORD) VALUES ('"
+                    + tempName + "','" + tempUser + "','" + tempPass + "')";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(this, "Berhasil ditambahkan.");
+            ps.close();
+            clear();
+        } catch (MySQLIntegrityConstraintViolationException sqle) {
+            JOptionPane.showMessageDialog(this, sqle.getMessage() + ", akun telah terdaftar.");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
     }
 
     /**
@@ -50,6 +88,11 @@ public class LectureForm extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jButton2.setText("Submit");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel3.setText("Username");
@@ -107,11 +150,11 @@ public class LectureForm extends javax.swing.JFrame {
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(50, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(20, 20, 20)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
-                .addContainerGap())
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,21 +172,26 @@ public class LectureForm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap())
+                .addGap(15, 15, 15))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-     RegisterMenu a = new RegisterMenu();
-     a.setVisible(true);
-     this.dispose();
+        RegisterMenu a = new RegisterMenu();
+        a.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        createAccount();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

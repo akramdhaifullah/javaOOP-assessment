@@ -19,9 +19,10 @@ public class StudentMenu extends javax.swing.JFrame {
      * Creates new form MainMenu
      */
     public StudentMenu() {
+        Student s = new Student();
         initComponents();
         setResizable(false);
-        headerLabel.setText(setHeader());
+        headerLabel.setText(s.setHeader());
     }
 
     /**
@@ -153,11 +154,6 @@ public class StudentMenu extends javax.swing.JFrame {
             return;
         }
     }//GEN-LAST:event_exitButtonActionPerformed
-
-    private String setHeader() {
-        String name = Student.getName() + ", " + Student.getNIM();
-        return name;
-    }
 
     /**
      * @param args the command line arguments

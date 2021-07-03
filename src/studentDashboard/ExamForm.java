@@ -5,12 +5,21 @@
  */
 package studentDashboard;
 
+import java.io.File;
+import java.nio.file.Files;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author ACER AMD
  */
 public class ExamForm extends javax.swing.JFrame {
 
+    JFileChooser fc;
+    FileNameExtensionFilter restrict;
+    File nilaiFile, laporanFile;
+    
     /**
      * Creates new form ExamForm
      */
@@ -30,13 +39,13 @@ public class ExamForm extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        nilaiField = new javax.swing.JTextField();
+        nilaiButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        laporanButton = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
+        submitButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,39 +75,44 @@ public class ExamForm extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel2.setText("Nilai dari Perusahaan");
 
-        jTextField1.setEditable(false);
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        nilaiField.setEditable(false);
+        nilaiField.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+
+        nilaiButton.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        nilaiButton.setText("Attach File");
+        nilaiButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                nilaiButtonActionPerformed(evt);
             }
         });
-
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jButton1.setText("Attach File");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         jLabel3.setText("Laporan PKN");
 
         jTextField2.setEditable(false);
         jTextField2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+
+        laporanButton.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        laporanButton.setText("Attach File");
+        laporanButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                laporanButtonActionPerformed(evt);
             }
         });
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jButton2.setText("Attach File");
-
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jButton3.setText("Kembali");
-
-        jButton4.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        jButton4.setText("Submit");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        backButton.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        backButton.setText("Kembali");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                backButtonActionPerformed(evt);
+            }
+        });
+
+        submitButton.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        submitButton.setText("Submit");
+        submitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitButtonActionPerformed(evt);
             }
         });
 
@@ -115,19 +129,19 @@ public class ExamForm extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nilaiField, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1))
+                        .addComponent(nilaiButton))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)))
+                        .addComponent(laporanButton)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(jButton3)
+                .addComponent(backButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4)
+                .addComponent(submitButton)
                 .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
@@ -137,34 +151,59 @@ public class ExamForm extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(nilaiField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nilaiButton))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(laporanButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(backButton)
+                    .addComponent(submitButton))
                 .addGap(15, 15, 15))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_submitButtonActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void nilaiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nilaiButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+        fc = new JFileChooser();
+        fc.setAcceptAllFileFilterUsed(false);
+        restrict = new FileNameExtensionFilter("Only .pdf files", "pdf");
+        fc.addChoosableFileFilter(restrict);
+        int a = fc.showOpenDialog(null);
+        if (a == JFileChooser.APPROVE_OPTION) {
+            nilaiField.setText(fc.getSelectedFile().getAbsolutePath());
+            nilaiFile = fc.getSelectedFile();
+        }
+    }//GEN-LAST:event_nilaiButtonActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void laporanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_laporanButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+        fc = new JFileChooser();
+        fc.setAcceptAllFileFilterUsed(false);
+        restrict = new FileNameExtensionFilter("Only .pdf files", "pdf");
+        fc.addChoosableFileFilter(restrict);
+        int a = fc.showOpenDialog(null);
+        if (a == JFileChooser.APPROVE_OPTION) {
+            jTextField2.setText(fc.getSelectedFile().getAbsolutePath());
+            laporanFile = fc.getSelectedFile();
+        }
+    }//GEN-LAST:event_laporanButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        // TODO add your handling code here:
+        StudentMenu a = new StudentMenu();
+        a.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -202,15 +241,15 @@ public class ExamForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton backButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
+    private javax.swing.JButton laporanButton;
+    private javax.swing.JButton nilaiButton;
+    private javax.swing.JTextField nilaiField;
+    private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables
 }
