@@ -9,8 +9,8 @@ package sessionAttributes;
  *
  * @author ACER AMD
  */
-public class Student {
-    
+public class Student implements Account {
+
     private static String NIM;
     private static String name;
     private static String email;
@@ -71,5 +71,10 @@ public class Student {
     public static void setPhone(String aPhone) {
         phone = aPhone;
     }
-    
+
+    @Override
+    public String setHeader() {
+        String headerName = getName() + ", " + getNIM();
+        return headerName;
+    }
 }

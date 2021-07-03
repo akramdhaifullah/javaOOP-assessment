@@ -12,6 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import mySQLConnection.MySQLConnection;
+import sessionAttributes.Admin;
+import sessionAttributes.Lecture;
 import sessionAttributes.Student;
 
 /**
@@ -33,7 +35,7 @@ public class Operations {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-
+                Admin.setName(resultSet.getString("NAMA"));
                 return true;
             }
 
@@ -82,7 +84,7 @@ public class Operations {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-
+                Lecture.setName(resultSet.getString("NAMA"));
                 return true;
             }
 

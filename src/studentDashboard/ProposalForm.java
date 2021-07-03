@@ -8,8 +8,6 @@ package studentDashboard;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -266,17 +264,17 @@ public class ProposalForm extends javax.swing.JFrame {
         try {
             Connection myConn = MySQLConnection.getConnection();
             String query = "INSERT INTO proposal (NIM, NAMA, WAKTU, TEMPAT, STATUS) VALUES ('"
-                    + tempNIM + "','" + tempName + "','" + tempDate + "'," + "'" 
+                    + tempNIM + "','" + tempName + "','" + tempDate + "'," + "'"
                     + tempAddress + "', '" + tempResult + "')";
             PreparedStatement ps = myConn.prepareStatement(query);
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Berhasil ditambahkan.");
-            ps.close();
-            clear();
+            JOptionPane.showMessageDialog(this, "Berhasil");
         } catch (MySQLIntegrityConstraintViolationException sqle) {
             JOptionPane.showMessageDialog(this, sqle.getMessage() + ", anda sudah mengajukan proposal.");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
+        } finally {
+            clear();
         }
     }//GEN-LAST:event_submitButtonActionPerformed
 
@@ -291,9 +289,7 @@ public class ProposalForm extends javax.swing.JFrame {
     private void setData() {
         tempNIM = Student.getNIM();
         tempName = Student.getName();
-        String dateFormat = "yyyy-MM-dd";
-        SimpleDateFormat df = new SimpleDateFormat(dateFormat);
-        tempDate = String.valueOf(df.format(timeChooser.getDate()));
+        tempDate = String.valueOf(timeChooser.getDate());
         tempAddress = addressTextArea.getText();
         tempResult = "Pending";
     }

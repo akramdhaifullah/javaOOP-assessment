@@ -5,10 +5,10 @@
  */
 package adminDashboard;
 
-import accRegister.AdminForm;
-import studentDashboard.*;
+import accRegister.RegisterMenu;
 import javax.swing.JOptionPane;
 import loginForm.LoginForm;
+import sessionAttributes.Admin;
 
 /**
  *
@@ -20,8 +20,10 @@ public class AdminMenu extends javax.swing.JFrame {
      * Creates new form MainMenu
      */
     public AdminMenu() {
+        Admin a = new Admin();
         initComponents();
         setResizable(false);
+        jLabel2.setText(a.setHeader());
     }
 
     /**
@@ -181,7 +183,7 @@ public class AdminMenu extends javax.swing.JFrame {
 
     private void registrasiButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registrasiButtonActionPerformed
         // TODO add your handling code here:
-        AdminForm form = new AdminForm();
+        RegisterMenu form = new RegisterMenu();
         form.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_registrasiButtonActionPerformed

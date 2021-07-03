@@ -97,7 +97,7 @@ public class ApprovalForm extends javax.swing.JFrame {
         approveButton = new javax.swing.JButton();
         declineButton = new javax.swing.JButton();
         refreshLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -154,6 +154,11 @@ public class ApprovalForm extends javax.swing.JFrame {
 
         declineButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         declineButton.setText("Tolak");
+        declineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                declineButtonActionPerformed(evt);
+            }
+        });
 
         refreshLabel.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         refreshLabel.setText("Refresh");
@@ -163,8 +168,13 @@ public class ApprovalForm extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jButton1.setText("Kembali");
+        backButton.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        backButton.setText("Kembali");
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -178,7 +188,7 @@ public class ApprovalForm extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(jButton1)
+                        .addComponent(backButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(refreshLabel)
                         .addGap(18, 18, 18)
@@ -198,7 +208,7 @@ public class ApprovalForm extends javax.swing.JFrame {
                     .addComponent(approveButton)
                     .addComponent(declineButton)
                     .addComponent(refreshLabel)
-                    .addComponent(jButton1))
+                    .addComponent(backButton))
                 .addGap(0, 16, Short.MAX_VALUE))
         );
 
@@ -233,6 +243,31 @@ public class ApprovalForm extends javax.swing.JFrame {
         int row = approvalTable.getSelectedRow();
         selectedNIM = approvalTable.getValueAt(row, 0).toString();
     }//GEN-LAST:event_approvalTableMouseClicked
+
+    private void declineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_declineButtonActionPerformed
+        // TODO add your handling code here:
+        if (isTableSelected()) {
+            try {
+                Connection myConn = MySQLConnection.getConnection();
+                String query = "UPDATE proposal SET STATUS = '" + declined + "' WHERE NIM = '" + selectedNIM + "'";
+                PreparedStatement ps = myConn.prepareStatement(query);
+                ps.executeUpdate();
+                refreshTable();
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, e.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Tidak ada opsi yang dipilih.");
+        }
+    }//GEN-LAST:event_declineButtonActionPerformed
+
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        // TODO add your handling code here:
+        AdminMenu a = new AdminMenu();
+        a.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_backButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -273,8 +308,8 @@ public class ApprovalForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable approvalTable;
     private javax.swing.JButton approveButton;
+    private javax.swing.JButton backButton;
     private javax.swing.JButton declineButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

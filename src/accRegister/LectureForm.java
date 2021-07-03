@@ -42,7 +42,7 @@ public class LectureForm extends javax.swing.JFrame {
         setData();
         try {
             Connection con = MySQLConnection.getConnection();
-            String query = "INSERT INTO admin (NAMA, USERNAME, PASSWORD) VALUES ('"
+            String query = "INSERT INTO dosen (NAMA, USERNAME, PASSWORD) VALUES ('"
                     + tempName + "','" + tempUser + "','" + tempPass + "')";
             PreparedStatement ps = con.prepareStatement(query);
             ps.executeUpdate();
