@@ -6,6 +6,8 @@
 package accRegister;
 
 import adminDashboard.AdminMenu;
+import loginForm.LoginForm;
+import sessionAttributes.Admin;
 
 /**
  *
@@ -153,9 +155,15 @@ public class RegisterMenu extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        AdminMenu form = new AdminMenu();
-        form.setVisible(true);
-        this.dispose();
+        if (Admin.getIsLogged() == true) {
+            AdminMenu a = new AdminMenu();
+            a.setVisible(true);
+            this.dispose();
+        } else {
+            LoginForm b = new LoginForm();
+            b.setVisible(true);
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

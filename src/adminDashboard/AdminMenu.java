@@ -175,6 +175,7 @@ public class AdminMenu extends javax.swing.JFrame {
         LoginForm form = new LoginForm();
         int confirm = JOptionPane.showConfirmDialog(this, "Are you sure?", "Log Out", JOptionPane.YES_NO_OPTION);
         if (confirm == JOptionPane.YES_OPTION) {
+            Admin.setIsLogged(false);
             form.setVisible(true);
             this.dispose();
         }

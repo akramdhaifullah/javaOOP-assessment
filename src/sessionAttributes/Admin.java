@@ -12,6 +12,7 @@ package sessionAttributes;
 public class Admin implements Account {
 
     private static String name;
+    private static boolean isLogged;
     
     /**
      * @return the name
@@ -25,6 +26,14 @@ public class Admin implements Account {
      */
     public static void setName(String aName) {
         name = aName;
+    }
+    
+    public static boolean getIsLogged() {
+        return isLogged;
+    }
+    
+    public static void setIsLogged(boolean aIsLogged) {
+        isLogged = aIsLogged;
     }
 
     @Override

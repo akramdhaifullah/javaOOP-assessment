@@ -36,6 +36,7 @@ public class Operations {
 
             while (resultSet.next()) {
                 Admin.setName(resultSet.getString("NAMA"));
+                Admin.setIsLogged(true);
                 return true;
             }
 
